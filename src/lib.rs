@@ -123,6 +123,27 @@
 //! | PromptDialog  |              |         |       |        |
 //! | ColorPicker   |              |         |       |        |
 
+#[cfg(all(feature = "gtk3", feature = "xdg-portal"))]
+compile_error!("You can't enable both `gtk3` and `xdg-portal` features at once");
+
+#[cfg(all(
+    any(
+        target_os = "linux",
+        target_os = "freebsd",
+        target_os = "dragonfly",
+        target_os = "netbsd",
+        target_os = "openbsd"
+    ),
+    not(any(feature = "gtk3", feature = "xdg-portal")),
+))]
+compile_error!("You need to choose at least one backend: `gtk3` or `xdg-portal` features");
+
+#[cfg(all(
+    feature = "xdg-portal",
+    not(any(feature = "tokio", feature = "async-std")),
+))]
+compile_error!("One of the `tokio` or `async-std` features must be enabled to use `xdg-portal`");
+
 mod backend;
 
 mod file_handle;
