@@ -1,22 +1,23 @@
-mod com;
-pub mod dialog_ffi;
-mod dialog_future;
-
-use dialog_ffi::{IDialog, Result};
-use dialog_future::{multiple_return_future, single_return_future};
-
-use crate::backend::DialogFutureType;
-use crate::{FileDialog, FileHandle};
-
 use std::path::PathBuf;
 
+mod com;
+
+pub mod dialog_ffi;
+use dialog_ffi::{IDialog, Result};
+
+mod dialog_future;
+use dialog_future::{multiple_return_future, single_return_future};
+
 use super::utils::init_com;
+use crate::backend::DialogFutureType;
+use crate::{FileDialog, FileHandle};
 
 //
 // File Picker
 //
 
-use crate::backend::FilePickerDialogImpl;
+use crate::backend::{AsyncFilePickerDialogImpl, FilePickerDialogImpl};
+
 impl FilePickerDialogImpl for FileDialog {
     fn pick_file(self) -> Option<PathBuf> {
         fn run(opt: FileDialog) -> Result<PathBuf> {
@@ -41,7 +42,6 @@ impl FilePickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFilePickerDialogImpl;
 impl AsyncFilePickerDialogImpl for FileDialog {
     fn pick_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let ret = single_return_future(move || IDialog::build_pick_file(&self));
@@ -58,7 +58,8 @@ impl AsyncFilePickerDialogImpl for FileDialog {
 // Folder Picker
 //
 
-use crate::backend::FolderPickerDialogImpl;
+use crate::backend::{AsyncFolderPickerDialogImpl, FolderPickerDialogImpl};
+
 impl FolderPickerDialogImpl for FileDialog {
     fn pick_folder(self) -> Option<PathBuf> {
         fn run(opt: FileDialog) -> Result<PathBuf> {
@@ -84,7 +85,6 @@ impl FolderPickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFolderPickerDialogImpl;
 impl AsyncFolderPickerDialogImpl for FileDialog {
     fn pick_folder_async(self) -> DialogFutureType<Option<FileHandle>> {
         let ret = single_return_future(move || IDialog::build_pick_folder(&self));
@@ -101,7 +101,8 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
 // File Save
 //
 
-use crate::backend::FileSaveDialogImpl;
+use crate::backend::{AsyncFileSaveDialogImpl, FileSaveDialogImpl};
+
 impl FileSaveDialogImpl for FileDialog {
     fn save_file(self) -> Option<PathBuf> {
         fn run(opt: FileDialog) -> Result<PathBuf> {
@@ -116,7 +117,6 @@ impl FileSaveDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFileSaveDialogImpl;
 impl AsyncFileSaveDialogImpl for FileDialog {
     fn save_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let ret = single_return_future(move || IDialog::build_save_file(&self));

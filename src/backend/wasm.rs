@@ -1,11 +1,13 @@
-mod file_dialog;
-
-use crate::file_dialog::FileDialog;
-use crate::file_handle::WasmFileHandleKind;
-use crate::{FileHandle, MessageDialogResult};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::{Element, HtmlAnchorElement, HtmlButtonElement, HtmlElement, HtmlInputElement};
+
+mod file_dialog;
+
+use crate::backend::DialogFutureType;
+use crate::file_dialog::FileDialog;
+use crate::file_handle::WasmFileHandleKind;
+use crate::{FileHandle, MessageDialogResult};
 
 #[derive(Clone, Debug)]
 pub enum FileKind<'a> {
@@ -267,7 +269,7 @@ impl<'a> Drop for WasmDialog<'a> {
     }
 }
 
-use super::{AsyncFilePickerDialogImpl, DialogFutureType};
+use crate::backend::AsyncFilePickerDialogImpl;
 
 impl AsyncFilePickerDialogImpl for FileDialog {
     fn pick_file_async(self) -> DialogFutureType<Option<FileHandle>> {
@@ -287,7 +289,7 @@ extern "C" {
     fn confirm(s: &str) -> bool;
 }
 
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 use crate::message_dialog::{MessageButtons, MessageDialog};
 
 impl MessageDialogImpl for MessageDialog {
@@ -313,7 +315,7 @@ impl MessageDialogImpl for MessageDialog {
     }
 }
 
-impl crate::backend::AsyncMessageDialogImpl for MessageDialog {
+impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {
         let val = MessageDialogImpl::show(self);
         Box::pin(std::future::ready(val))

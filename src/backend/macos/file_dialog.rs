@@ -1,6 +1,7 @@
+use std::path::PathBuf;
+
 use objc2::rc::autoreleasepool;
 use objc2_app_kit::NSModalResponseOK;
-use std::path::PathBuf;
 
 mod panel_ffi;
 
@@ -14,7 +15,8 @@ use crate::{FileDialog, FileHandle};
 // File Picker
 //
 
-use crate::backend::FilePickerDialogImpl;
+use crate::backend::{AsyncFilePickerDialogImpl, FilePickerDialogImpl};
+
 impl FilePickerDialogImpl for FileDialog {
     fn pick_file(self) -> Option<PathBuf> {
         autoreleasepool(move |_| {
@@ -45,7 +47,6 @@ impl FilePickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFilePickerDialogImpl;
 impl AsyncFilePickerDialogImpl for FileDialog {
     fn pick_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let win = self.parent.as_ref().map(window_from_raw_window_handle);
@@ -94,7 +95,8 @@ impl AsyncFilePickerDialogImpl for FileDialog {
 // Folder Picker
 //
 
-use crate::backend::FolderPickerDialogImpl;
+use crate::backend::{AsyncFolderPickerDialogImpl, FolderPickerDialogImpl};
+
 impl FolderPickerDialogImpl for FileDialog {
     fn pick_folder(self) -> Option<PathBuf> {
         autoreleasepool(move |_| {
@@ -123,7 +125,6 @@ impl FolderPickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFolderPickerDialogImpl;
 impl AsyncFolderPickerDialogImpl for FileDialog {
     fn pick_folder_async(self) -> DialogFutureType<Option<FileHandle>> {
         let win = self.parent.as_ref().map(window_from_raw_window_handle);
@@ -172,7 +173,8 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
 // File Save
 //
 
-use crate::backend::FileSaveDialogImpl;
+use crate::backend::{AsyncFileSaveDialogImpl, FileSaveDialogImpl};
+
 impl FileSaveDialogImpl for FileDialog {
     fn save_file(self) -> Option<PathBuf> {
         autoreleasepool(move |_| {
@@ -188,7 +190,6 @@ impl FileSaveDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFileSaveDialogImpl;
 impl AsyncFileSaveDialogImpl for FileDialog {
     fn save_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let win = self.parent.as_ref().map(window_from_raw_window_handle);

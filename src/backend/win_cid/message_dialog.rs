@@ -1,17 +1,16 @@
-use super::thread_future::ThreadFuture;
-use super::utils::str_to_vec_u16;
-use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
-
+use raw_window_handle::RawWindowHandle;
 use windows_sys::Win32::Foundation::HWND;
-use windows_sys::Win32::UI::WindowsAndMessaging::{IDCANCEL, IDNO, IDOK, IDYES};
-
 #[cfg(not(feature = "common-controls-v6"))]
 use windows_sys::Win32::UI::WindowsAndMessaging::{
     MessageBoxW, MB_ICONERROR, MB_ICONINFORMATION, MB_ICONWARNING, MB_OK, MB_OKCANCEL, MB_YESNO,
     MB_YESNOCANCEL, MESSAGEBOX_STYLE,
 };
+use windows_sys::Win32::UI::WindowsAndMessaging::{IDCANCEL, IDNO, IDOK, IDYES};
 
-use raw_window_handle::RawWindowHandle;
+use super::thread_future::ThreadFuture;
+use super::utils::str_to_vec_u16;
+use crate::backend::DialogFutureType;
+use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
 
 pub struct WinMessageDialog {
     parent: Option<HWND>,
@@ -219,7 +218,7 @@ impl WinMessageDialog {
     }
 }
 
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 
 impl MessageDialogImpl for MessageDialog {
     fn show(self) -> MessageDialogResult {
@@ -227,8 +226,6 @@ impl MessageDialogImpl for MessageDialog {
         dialog.run()
     }
 }
-
-use crate::backend::{AsyncMessageDialogImpl, DialogFutureType};
 
 impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {

@@ -1,17 +1,16 @@
 use std::path::PathBuf;
 
+use ashpd::desktop::file_chooser::{FileFilter, OpenFileRequest, SaveFileRequest};
+use ashpd::WindowIdentifier;
+use log::error;
+use pollster::block_on;
+use raw_window_handle::{RawDisplayHandle, RawWindowHandle};
+
 use super::linux::zenity;
 use crate::backend::DialogFutureType;
 use crate::file_dialog::Filter;
 use crate::message_dialog::MessageDialog;
 use crate::{FileDialog, FileHandle, MessageButtons, MessageDialogResult};
-
-use ashpd::desktop::file_chooser::{FileFilter, OpenFileRequest, SaveFileRequest};
-use ashpd::WindowIdentifier;
-
-use log::error;
-use pollster::block_on;
-use raw_window_handle::{RawDisplayHandle, RawWindowHandle};
 
 fn to_window_identifier(
     window: Option<RawWindowHandle>,
@@ -42,7 +41,8 @@ impl From<&Filter> for FileFilter {
 // File Picker
 //
 
-use crate::backend::FilePickerDialogImpl;
+use crate::backend::{AsyncFilePickerDialogImpl, FilePickerDialogImpl};
+
 impl FilePickerDialogImpl for FileDialog {
     fn pick_file(self) -> Option<PathBuf> {
         block_on(self.pick_file_async()).map(PathBuf::from)
@@ -54,7 +54,6 @@ impl FilePickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFilePickerDialogImpl;
 impl AsyncFilePickerDialogImpl for FileDialog {
     fn pick_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         Box::pin(async move {
@@ -130,7 +129,8 @@ impl AsyncFilePickerDialogImpl for FileDialog {
 // Folder Picker
 //
 
-use crate::backend::FolderPickerDialogImpl;
+use crate::backend::{AsyncFolderPickerDialogImpl, FolderPickerDialogImpl};
+
 impl FolderPickerDialogImpl for FileDialog {
     fn pick_folder(self) -> Option<PathBuf> {
         block_on(self.pick_folder_async()).map(PathBuf::from)
@@ -142,7 +142,6 @@ impl FolderPickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFolderPickerDialogImpl;
 impl AsyncFolderPickerDialogImpl for FileDialog {
     fn pick_folder_async(self) -> DialogFutureType<Option<FileHandle>> {
         Box::pin(async move {
@@ -220,14 +219,14 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
 // File Save
 //
 
-use crate::backend::FileSaveDialogImpl;
+use crate::backend::{AsyncFileSaveDialogImpl, FileSaveDialogImpl};
+
 impl FileSaveDialogImpl for FileDialog {
     fn save_file(self) -> Option<PathBuf> {
         block_on(self.save_file_async()).map(PathBuf::from)
     }
 }
 
-use crate::backend::AsyncFileSaveDialogImpl;
 impl AsyncFileSaveDialogImpl for FileDialog {
     fn save_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         Box::pin(async move {
@@ -264,14 +263,14 @@ impl AsyncFileSaveDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
+
 impl MessageDialogImpl for MessageDialog {
     fn show(self) -> MessageDialogResult {
         block_on(self.show_async())
     }
 }
 
-use crate::backend::AsyncMessageDialogImpl;
 impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {
         Box::pin(async move {

@@ -3,7 +3,6 @@ use std::path::{Path, PathBuf};
 
 use block2::Block;
 use objc2::rc::Id;
-
 use objc2_app_kit::{NSModalResponse, NSOpenPanel, NSSavePanel, NSWindow, NSWindowLevel};
 use objc2_foundation::{MainThreadMarker, NSArray, NSObjectProtocol, NSString, NSURL};
 use raw_window_handle::RawWindowHandle;

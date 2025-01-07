@@ -1,5 +1,4 @@
 use objc2::rc::Id;
-
 use objc2_app_kit::{NSApplication, NSWindow};
 use objc2_foundation::MainThreadMarker;
 

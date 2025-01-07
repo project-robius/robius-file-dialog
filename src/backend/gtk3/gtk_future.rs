@@ -1,10 +1,8 @@
-use super::utils::GtkGlobalThread;
-
 use std::pin::Pin;
 use std::sync::{Arc, Mutex};
-
 use std::task::{Context, Poll, Waker};
 
+use super::utils::GtkGlobalThread;
 use super::AsGtkDialog;
 
 struct FutureState<R, D> {
@@ -84,10 +82,11 @@ impl<R, D> std::future::Future for GtkDialogFuture<R, D> {
     }
 }
 
-use gobject_sys::GCallback;
-use gtk_sys::{GtkDialog, GtkResponseType};
 use std::ffi::c_void;
 use std::os::raw::c_char;
+
+use gobject_sys::GCallback;
+use gtk_sys::{GtkDialog, GtkResponseType};
 
 unsafe fn connect_raw<F>(
     receiver: *mut gobject_sys::GObject,

@@ -4,7 +4,7 @@ use std::ptr;
 use super::gtk_future::GtkDialogFuture;
 use super::utils::GtkGlobalThread;
 use super::AsGtkDialog;
-
+use crate::backend::DialogFutureType;
 use crate::message_dialog::{MessageButtons, MessageDialog, MessageLevel};
 use crate::MessageDialogResult;
 
@@ -187,7 +187,7 @@ impl AsGtkDialog for GtkMessageDialog {
     }
 }
 
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 
 impl MessageDialogImpl for MessageDialog {
     fn show(self) -> MessageDialogResult {
@@ -197,8 +197,6 @@ impl MessageDialogImpl for MessageDialog {
         })
     }
 }
-
-use crate::backend::{AsyncMessageDialogImpl, DialogFutureType};
 
 impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {

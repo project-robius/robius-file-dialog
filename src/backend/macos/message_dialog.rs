@@ -1,18 +1,15 @@
-use crate::backend::DialogFutureType;
-use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
-
-use super::modal_future::{AsModal, InnerModal, ModalFuture};
-use super::utils::{self, run_on_main, FocusManager, PolicyManager};
-
-use super::utils::window_from_raw_window_handle;
 use block2::Block;
+use objc2::rc::{autoreleasepool, Id};
 use objc2_app_kit::{
     NSAlert, NSAlertFirstButtonReturn, NSAlertSecondButtonReturn, NSAlertStyle,
     NSAlertThirdButtonReturn, NSApplication, NSModalResponse, NSWindow,
 };
 use objc2_foundation::{MainThreadMarker, NSString};
 
-use objc2::rc::{autoreleasepool, Id};
+use super::modal_future::{AsModal, InnerModal, ModalFuture};
+use super::utils::{self, run_on_main, window_from_raw_window_handle, FocusManager, PolicyManager};
+use crate::backend::DialogFutureType;
+use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
 
 pub struct Alert {
     buttons: MessageButtons,
@@ -149,7 +146,8 @@ impl InnerModal for NSAlert {
     }
 }
 
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
+
 impl MessageDialogImpl for MessageDialog {
     fn show(self) -> MessageDialogResult {
         autoreleasepool(move |_| {
@@ -163,8 +161,6 @@ impl MessageDialogImpl for MessageDialog {
         })
     }
 }
-
-use crate::backend::AsyncMessageDialogImpl;
 
 impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {

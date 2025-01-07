@@ -1,8 +1,9 @@
-use crate::message_dialog::MessageDialogResult;
-use crate::FileHandle;
 use std::future::Future;
 use std::path::PathBuf;
 use std::pin::Pin;
+
+use crate::message_dialog::MessageDialogResult;
+use crate::FileHandle;
 
 #[cfg(all(
     any(
