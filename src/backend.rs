@@ -12,7 +12,7 @@ use std::pin::Pin;
         target_os = "netbsd",
         target_os = "openbsd"
     ),
-    not(feature = "gtk3")
+    not(feature = "gtk3"),
 ))]
 mod linux;
 
@@ -24,7 +24,7 @@ mod linux;
         target_os = "netbsd",
         target_os = "openbsd"
     ),
-    feature = "gtk3"
+    feature = "gtk3",
 ))]
 mod gtk3;
 #[cfg(target_os = "macos")]
@@ -41,7 +41,7 @@ mod win_cid;
         target_os = "netbsd",
         target_os = "openbsd"
     ),
-    not(feature = "gtk3")
+    not(feature = "gtk3"),
 ))]
 mod xdg_desktop_portal;
 
