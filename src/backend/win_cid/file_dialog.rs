@@ -6,8 +6,7 @@ use dialog_ffi::{IDialog, Result};
 use dialog_future::{multiple_return_future, single_return_future};
 
 use crate::backend::DialogFutureType;
-use crate::FileDialog;
-use crate::FileHandle;
+use crate::{FileDialog, FileHandle};
 
 use std::path::PathBuf;
 

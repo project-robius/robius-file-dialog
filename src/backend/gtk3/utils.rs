@@ -1,7 +1,6 @@
 use std::ptr;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::OnceLock;
-use std::sync::{Arc, Condvar, Mutex};
+use std::sync::{Arc, Condvar, Mutex, OnceLock};
 use std::thread::spawn;
 
 static GTK_THREAD: OnceLock<GtkGlobalThread> = OnceLock::new();

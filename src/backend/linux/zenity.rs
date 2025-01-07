@@ -1,10 +1,11 @@
-use std::{error::Error, fmt::Display, path::PathBuf, process::Command};
+use std::error::Error;
+use std::fmt::Display;
+use std::path::PathBuf;
+use std::process::Command;
 
-use crate::{
-    file_dialog::Filter,
-    message_dialog::{MessageButtons, MessageLevel},
-    FileDialog, MessageDialogResult,
-};
+use crate::file_dialog::Filter;
+use crate::message_dialog::{MessageButtons, MessageLevel};
+use crate::{FileDialog, MessageDialogResult};
 
 #[derive(Debug)]
 pub enum ZenityError {
@@ -191,21 +192,21 @@ pub async fn question(
         MessageButtons::OkCancel => {
             command.args(["--ok-label", "Ok"]);
             command.args(["--cancel-label", "Cancel"]);
-        }
+        },
         MessageButtons::OkCancelCustom(ok, cancel) => {
             command.args(["--ok-label", ok.as_str()]);
             command.args(["--cancel-label", cancel.as_str()]);
-        }
+        },
         MessageButtons::YesNoCancel => {
             command.args(["--extra-button", "No"]);
             command.args(["--cancel-label", "Cancel"]);
-        }
+        },
         MessageButtons::YesNoCancelCustom(yes, no, cancel) => {
             command.args(["--ok-label", yes.as_str()]);
             command.args(["--cancel-label", cancel.as_str()]);
             command.args(["--extra-button", no.as_str()]);
-        }
-        _ => {}
+        },
+        _ => {},
     }
 
     run(command).await.map(|res| match btns {

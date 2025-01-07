@@ -126,27 +126,27 @@ impl GtkMessageDialog {
             (Ok | OkCancel, gtk_sys::GTK_RESPONSE_OK) => MessageDialogResult::Ok,
             (Ok | OkCancel | YesNoCancel, gtk_sys::GTK_RESPONSE_CANCEL) => {
                 MessageDialogResult::Cancel
-            }
+            },
             (YesNo | YesNoCancel, gtk_sys::GTK_RESPONSE_YES) => MessageDialogResult::Yes,
             (YesNo | YesNoCancel, gtk_sys::GTK_RESPONSE_NO) => MessageDialogResult::No,
             (OkCustom(custom), gtk_sys::GTK_RESPONSE_OK) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             (OkCancelCustom(custom, _), gtk_sys::GTK_RESPONSE_OK) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             (OkCancelCustom(_, custom), gtk_sys::GTK_RESPONSE_CANCEL) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             (YesNoCancelCustom(custom, _, _), gtk_sys::GTK_RESPONSE_YES) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             (YesNoCancelCustom(_, custom, _), gtk_sys::GTK_RESPONSE_NO) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             (YesNoCancelCustom(_, _, custom), gtk_sys::GTK_RESPONSE_CANCEL) => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             _ => MessageDialogResult::Cancel,
         }
     }
@@ -181,6 +181,7 @@ impl AsGtkDialog for GtkMessageDialog {
     fn gtk_dialog_ptr(&self) -> *mut gtk_sys::GtkDialog {
         self.ptr as *mut _
     }
+
     unsafe fn show(&self) {
         gtk_sys::gtk_widget_show_all(self.ptr as *mut _);
     }
@@ -197,8 +198,7 @@ impl MessageDialogImpl for MessageDialog {
     }
 }
 
-use crate::backend::AsyncMessageDialogImpl;
-use crate::backend::DialogFutureType;
+use crate::backend::{AsyncMessageDialogImpl, DialogFutureType};
 
 impl AsyncMessageDialogImpl for MessageDialog {
     fn show_async(self) -> DialogFutureType<MessageDialogResult> {

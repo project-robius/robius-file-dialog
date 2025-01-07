@@ -1,9 +1,7 @@
-use std::{
-    io,
-    pin::Pin,
-    sync::{Arc, Mutex},
-    task::{Context, Poll, Waker},
-};
+use std::io;
+use std::pin::Pin;
+use std::sync::{Arc, Mutex};
+use std::task::{Context, Poll, Waker};
 
 struct State {
     waker: Option<Waker>,

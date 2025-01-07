@@ -1,5 +1,4 @@
-use crate::backend::AsyncMessageDialogImpl;
-use crate::backend::MessageDialogImpl;
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 use std::fmt::{Display, Formatter};
 
 use std::future::Future;
@@ -192,16 +191,12 @@ pub enum MessageDialogResult {
 
 impl Display for MessageDialogResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Yes => "Yes".to_string(),
-                Self::No => "No".to_string(),
-                Self::Ok => "Ok".to_string(),
-                Self::Cancel => "Cancel".to_string(),
-                Self::Custom(custom) => format!("Custom({custom})"),
-            }
-        )
+        write!(f, "{}", match self {
+            Self::Yes => "Yes".to_string(),
+            Self::No => "No".to_string(),
+            Self::Ok => "Ok".to_string(),
+            Self::Cancel => "Cancel".to_string(),
+            Self::Custom(custom) => format!("Custom({custom})"),
+        })
     }
 }

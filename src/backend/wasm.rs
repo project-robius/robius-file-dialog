@@ -1,8 +1,8 @@
 mod file_dialog;
 
-use crate::{
-    file_dialog::FileDialog, file_handle::WasmFileHandleKind, FileHandle, MessageDialogResult,
-};
+use crate::file_dialog::FileDialog;
+use crate::file_handle::WasmFileHandleKind;
+use crate::{FileHandle, MessageDialogResult};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::{Element, HtmlAnchorElement, HtmlButtonElement, HtmlElement, HtmlInputElement};
@@ -84,7 +84,7 @@ impl<'a> WasmDialog<'a> {
 
                 card.append_child(&input).unwrap();
                 HtmlIoElement::Input(input)
-            }
+            },
             FileKind::Out(dialog, data) => {
                 let output_el = document.create_element("a").unwrap();
                 let output: HtmlAnchorElement = wasm_bindgen::JsCast::dyn_into(output_el).unwrap();
@@ -98,7 +98,7 @@ impl<'a> WasmDialog<'a> {
                     name: dialog.file_name.clone().unwrap_or_default(),
                     data,
                 }
-            }
+            },
         };
 
         let button = {
@@ -189,7 +189,7 @@ impl<'a> WasmDialog<'a> {
 
                     body.append_child(&overlay).ok();
                 })
-            }
+            },
         };
 
         let future = wasm_bindgen_futures::JsFuture::from(promise);
@@ -274,6 +274,7 @@ impl AsyncFilePickerDialogImpl for FileDialog {
         let dialog = WasmDialog::new(&FileKind::In(self));
         Box::pin(dialog.pick_file())
     }
+
     fn pick_files_async(self) -> DialogFutureType<Option<Vec<FileHandle>>> {
         let dialog = WasmDialog::new(&FileKind::In(self));
         Box::pin(dialog.pick_files())
@@ -296,7 +297,7 @@ impl MessageDialogImpl for MessageDialog {
             MessageButtons::Ok | MessageButtons::OkCustom(_) => {
                 alert(&text);
                 MessageDialogResult::Ok
-            }
+            },
             MessageButtons::OkCancel
             | MessageButtons::OkCancelCustom(..)
             | MessageButtons::YesNo
@@ -307,7 +308,7 @@ impl MessageDialogImpl for MessageDialog {
                 } else {
                     MessageDialogResult::Cancel
                 }
-            }
+            },
         }
     }
 }

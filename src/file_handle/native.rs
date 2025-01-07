@@ -1,10 +1,8 @@
-use std::{
-    future::Future,
-    path::{Path, PathBuf},
-    pin::Pin,
-    sync::{Arc, Mutex},
-    task::{Context, Poll, Waker},
-};
+use std::future::Future;
+use std::path::{Path, PathBuf};
+use std::pin::Pin;
+use std::sync::{Arc, Mutex};
+use std::task::{Context, Poll, Waker};
 
 #[derive(Default)]
 struct ReaderState {

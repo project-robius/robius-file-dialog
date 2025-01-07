@@ -1,6 +1,5 @@
 use core::str;
-use std::path::Path;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use block2::Block;
 use objc2::rc::Id;
@@ -9,10 +8,8 @@ use objc2_app_kit::{NSModalResponse, NSOpenPanel, NSSavePanel, NSWindow, NSWindo
 use objc2_foundation::{MainThreadMarker, NSArray, NSObjectProtocol, NSString, NSURL};
 use raw_window_handle::RawWindowHandle;
 
-use super::super::{
-    modal_future::{AsModal, InnerModal},
-    utils::{FocusManager, PolicyManager},
-};
+use super::super::modal_future::{AsModal, InnerModal};
+use super::super::utils::{FocusManager, PolicyManager};
 use crate::backend::macos::utils::window_from_raw_window_handle;
 use crate::FileDialog;
 

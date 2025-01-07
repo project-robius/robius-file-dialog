@@ -2,12 +2,10 @@ use super::super::AsGtkDialog;
 use crate::FileDialog;
 use gtk_sys::GtkFileChooserNative;
 
-use std::{
-    ffi::{CStr, CString},
-    ops::Deref,
-    path::{Path, PathBuf},
-    ptr,
-};
+use std::ffi::{CStr, CString};
+use std::ops::Deref;
+use std::path::{Path, PathBuf};
+use std::ptr;
 
 #[repr(i32)]
 pub enum GtkFileChooserAction {
@@ -115,6 +113,7 @@ impl GtkFileDialog {
 
         impl Iterator for FileList {
             type Item = glib_sys::GSList;
+
             fn next(&mut self) -> Option<Self::Item> {
                 let curr_ptr = self.0;
 

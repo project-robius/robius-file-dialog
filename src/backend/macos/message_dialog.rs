@@ -1,11 +1,8 @@
 use crate::backend::DialogFutureType;
 use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
 
-use super::modal_future::AsModal;
-use super::{
-    modal_future::{InnerModal, ModalFuture},
-    utils::{self, run_on_main, FocusManager, PolicyManager},
-};
+use super::modal_future::{AsModal, InnerModal, ModalFuture};
+use super::utils::{self, run_on_main, FocusManager, PolicyManager};
 
 use super::utils::window_from_raw_window_handle;
 use block2::Block;
@@ -45,18 +42,18 @@ impl Alert {
             MessageButtons::YesNo => vec!["Yes".to_owned(), "No".to_owned()],
             MessageButtons::YesNoCancel => {
                 vec!["Yes".to_owned(), "No".to_owned(), "Cancel".to_owned()]
-            }
+            },
             MessageButtons::OkCustom(ok_text) => vec![ok_text.to_owned()],
             MessageButtons::OkCancelCustom(ok_text, cancel_text) => {
                 vec![ok_text.to_owned(), cancel_text.to_owned()]
-            }
+            },
             MessageButtons::YesNoCancelCustom(yes_text, no_text, cancel_text) => {
                 vec![
                     yes_text.to_owned(),
                     no_text.to_owned(),
                     cancel_text.to_owned(),
                 ]
-            }
+            },
         };
 
         for button in buttons {
@@ -113,25 +110,25 @@ fn dialog_result(buttons: &MessageButtons, ret: NSModalResponse) -> MessageDialo
         MessageButtons::YesNoCancel if ret == NSAlertSecondButtonReturn => MessageDialogResult::No,
         MessageButtons::YesNoCancel if ret == NSAlertThirdButtonReturn => {
             MessageDialogResult::Cancel
-        }
+        },
         MessageButtons::OkCustom(custom) if ret == NSAlertFirstButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         MessageButtons::OkCancelCustom(custom, _) if ret == NSAlertFirstButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         MessageButtons::OkCancelCustom(_, custom) if ret == NSAlertSecondButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         MessageButtons::YesNoCancelCustom(custom, _, _) if ret == NSAlertFirstButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         MessageButtons::YesNoCancelCustom(_, custom, _) if ret == NSAlertSecondButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         MessageButtons::YesNoCancelCustom(_, _, custom) if ret == NSAlertThirdButtonReturn => {
             MessageDialogResult::Custom(custom.to_owned())
-        }
+        },
         _ => MessageDialogResult::Cancel,
     }
 }

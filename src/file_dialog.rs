@@ -1,7 +1,6 @@
 use crate::FileHandle;
 
-use std::path::Path;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use raw_window_handle::{HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle};
 
@@ -228,10 +227,9 @@ impl AsyncFileDialog {
     }
 }
 
-use crate::backend::AsyncFilePickerDialogImpl;
-use crate::backend::AsyncFileSaveDialogImpl;
 #[cfg(not(target_arch = "wasm32"))]
 use crate::backend::AsyncFolderPickerDialogImpl;
+use crate::backend::{AsyncFilePickerDialogImpl, AsyncFileSaveDialogImpl};
 
 use std::future::Future;
 
