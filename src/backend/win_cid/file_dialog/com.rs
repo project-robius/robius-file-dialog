@@ -1,14 +1,11 @@
 #![allow(non_snake_case)]
 
 use std::ffi::c_void;
+pub use windows_sys::core::GUID;
 use windows_sys::core::{HRESULT, PCWSTR, PWSTR};
-pub use windows_sys::{
-    core::GUID,
-    Win32::{
-        Foundation::HWND,
-        UI::Shell::{Common::COMDLG_FILTERSPEC, FILEOPENDIALOGOPTIONS, SIGDN, SIGDN_FILESYSPATH},
-    },
-};
+pub use windows_sys::Win32::Foundation::HWND;
+pub use windows_sys::Win32::UI::Shell::Common::COMDLG_FILTERSPEC;
+pub use windows_sys::Win32::UI::Shell::{FILEOPENDIALOGOPTIONS, SIGDN, SIGDN_FILESYSPATH};
 
 pub(crate) type Result<T> = std::result::Result<T, HRESULT>;
 

@@ -1,26 +1,22 @@
-use crate::{
-    backend::{
-        macos::utils::{FocusManager, PolicyManager},
-        DialogFutureType,
-    },
-    message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel},
-};
+use crate::backend::macos::utils::{FocusManager, PolicyManager};
+use crate::backend::DialogFutureType;
+use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
 
-use core_foundation::{base::TCFType, string::CFString};
-use core_foundation_sys::{
-    base::CFOptionFlags,
-    date::CFTimeInterval,
-    url::CFURLRef,
-    user_notification::{
-        kCFUserNotificationAlternateResponse, kCFUserNotificationCancelResponse,
-        kCFUserNotificationCautionAlertLevel, kCFUserNotificationDefaultResponse,
-        kCFUserNotificationNoteAlertLevel, kCFUserNotificationOtherResponse,
-        kCFUserNotificationStopAlertLevel, CFUserNotificationDisplayAlert,
-    },
+use core_foundation::base::TCFType;
+use core_foundation::string::CFString;
+use core_foundation_sys::base::CFOptionFlags;
+use core_foundation_sys::date::CFTimeInterval;
+use core_foundation_sys::url::CFURLRef;
+use core_foundation_sys::user_notification::{
+    kCFUserNotificationAlternateResponse, kCFUserNotificationCancelResponse,
+    kCFUserNotificationCautionAlertLevel, kCFUserNotificationDefaultResponse,
+    kCFUserNotificationNoteAlertLevel, kCFUserNotificationOtherResponse,
+    kCFUserNotificationStopAlertLevel, CFUserNotificationDisplayAlert,
 };
 use objc2_foundation::MainThreadMarker;
 
-use std::{mem::MaybeUninit, ptr, thread};
+use std::mem::MaybeUninit;
+use std::{ptr, thread};
 
 struct UserAlert {
     timeout: CFTimeInterval,
@@ -120,56 +116,56 @@ impl UserAlert {
         match self.buttons {
             MessageButtons::Ok if response == kCFUserNotificationDefaultResponse => {
                 MessageDialogResult::Ok
-            }
+            },
             MessageButtons::OkCancel if response == kCFUserNotificationDefaultResponse => {
                 MessageDialogResult::Ok
-            }
+            },
             MessageButtons::OkCancel if response == kCFUserNotificationAlternateResponse => {
                 MessageDialogResult::Cancel
-            }
+            },
             MessageButtons::YesNo if response == kCFUserNotificationDefaultResponse => {
                 MessageDialogResult::Yes
-            }
+            },
             MessageButtons::YesNo if response == kCFUserNotificationAlternateResponse => {
                 MessageDialogResult::No
-            }
+            },
             MessageButtons::YesNoCancel if response == kCFUserNotificationDefaultResponse => {
                 MessageDialogResult::Yes
-            }
+            },
             MessageButtons::YesNoCancel if response == kCFUserNotificationAlternateResponse => {
                 MessageDialogResult::No
-            }
+            },
             MessageButtons::YesNoCancel if response == kCFUserNotificationOtherResponse => {
                 MessageDialogResult::Cancel
-            }
+            },
             MessageButtons::OkCustom(custom) if response == kCFUserNotificationDefaultResponse => {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             MessageButtons::OkCancelCustom(custom, _)
                 if response == kCFUserNotificationDefaultResponse =>
             {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             MessageButtons::OkCancelCustom(_, custom)
                 if response == kCFUserNotificationAlternateResponse =>
             {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             MessageButtons::YesNoCancelCustom(custom, _, _)
                 if response == kCFUserNotificationDefaultResponse =>
             {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             MessageButtons::YesNoCancelCustom(_, custom, _)
                 if response == kCFUserNotificationAlternateResponse =>
             {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             MessageButtons::YesNoCancelCustom(_, _, custom)
                 if response == kCFUserNotificationOtherResponse =>
             {
                 MessageDialogResult::Custom(custom.to_owned())
-            }
+            },
             _ => MessageDialogResult::Cancel,
         }
     }
@@ -195,7 +191,7 @@ pub fn async_pop_dialog(opt: MessageDialog) -> DialogFutureType<MessageDialogRes
             Err(err) => {
                 log::error!("UserAler error: {err}");
                 MessageDialogResult::Cancel
-            }
+            },
         }
     })
 }

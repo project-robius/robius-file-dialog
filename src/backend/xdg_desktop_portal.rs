@@ -74,7 +74,7 @@ impl AsyncFilePickerDialogImpl for FileDialog {
                     Err(err) => {
                         error!("pick_file error {err}");
                         return None;
-                    }
+                    },
                 }
             } else {
                 res.ok()
@@ -108,7 +108,7 @@ impl AsyncFilePickerDialogImpl for FileDialog {
                     Err(err) => {
                         error!("pick_files error {err}");
                         None
-                    }
+                    },
                 }
             } else {
                 res.ok()
@@ -163,7 +163,7 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
                     Err(err) => {
                         error!("pick_folder error {err}");
                         return None;
-                    }
+                    },
                 }
             } else {
                 res.ok()
@@ -198,7 +198,7 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
                     Err(err) => {
                         error!("pick_files error {err}");
                         None
-                    }
+                    },
                 }
             } else {
                 res.ok()
@@ -247,7 +247,7 @@ impl AsyncFileSaveDialogImpl for FileDialog {
                     Err(err) => {
                         error!("pick_folder error {err}");
                         return None;
-                    }
+                    },
                 }
             } else {
                 res.ok()
@@ -290,9 +290,9 @@ impl AsyncMessageDialogImpl for MessageDialog {
                         Err(err) => {
                             log::error!("Failed to open zenity dialog: {err}");
                             MessageDialogResult::Cancel
-                        }
+                        },
                     }
-                }
+                },
                 MessageButtons::OkCancel
                 | MessageButtons::YesNo
                 | MessageButtons::OkCancelCustom(..)
@@ -310,9 +310,9 @@ impl AsyncMessageDialogImpl for MessageDialog {
                         Err(err) => {
                             log::error!("Failed to open zenity dialog: {err}");
                             MessageDialogResult::Cancel
-                        }
+                        },
                     }
-                }
+                },
             }
         })
     }

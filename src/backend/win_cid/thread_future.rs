@@ -49,15 +49,15 @@ impl<R> std::future::Future for ThreadFuture<R> {
                 None => {
                     *state.waker.lock().unwrap() = Some(cx.waker().clone());
                     Poll::Pending
-                }
+                },
             },
             Err(TryLockError::Poisoned(err)) => {
                 panic!("{}", err);
-            }
+            },
             Err(TryLockError::WouldBlock) => {
                 *state.waker.lock().unwrap() = Some(cx.waker().clone());
                 Poll::Pending
-            }
+            },
         }
     }
 }

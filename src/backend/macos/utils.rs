@@ -38,7 +38,7 @@ pub fn window_from_raw_window_handle(h: &RawWindowHandle) -> Id<NSWindow> {
             let view = h.ns_view.as_ptr() as *mut NSView;
             let view = unsafe { Id::retain(view).unwrap() };
             view.window().expect("NSView to be inside a NSWindow")
-        }
+        },
         _ => unreachable!("unsupported window handle, expected: MacOS"),
     }
 }

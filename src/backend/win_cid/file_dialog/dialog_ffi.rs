@@ -6,18 +6,15 @@ use super::com::{
 };
 use crate::FileDialog;
 
-use windows_sys::{
-    core::GUID,
-    Win32::{
-        System::Com::{CoCreateInstance, CLSCTX_INPROC_SERVER},
-        UI::Shell::{
-            FileOpenDialog, FileSaveDialog, SHCreateItemFromParsingName, FOS_ALLOWMULTISELECT,
-            FOS_PICKFOLDERS,
-        },
-    },
+use windows_sys::core::GUID;
+use windows_sys::Win32::System::Com::{CoCreateInstance, CLSCTX_INPROC_SERVER};
+use windows_sys::Win32::UI::Shell::{
+    FileOpenDialog, FileSaveDialog, SHCreateItemFromParsingName, FOS_ALLOWMULTISELECT,
+    FOS_PICKFOLDERS,
 };
 
-use std::{ffi::c_void, path::PathBuf};
+use std::ffi::c_void;
+use std::path::PathBuf;
 
 use raw_window_handle::RawWindowHandle;
 

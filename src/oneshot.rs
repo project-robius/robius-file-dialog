@@ -1,10 +1,9 @@
 use std::fmt;
 use std::future::Future;
 use std::pin::Pin;
-use std::sync::{
-    atomic::{AtomicBool, Ordering::SeqCst},
-    Arc, Mutex,
-};
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering::SeqCst;
+use std::sync::{Arc, Mutex};
 use std::task::{Context, Poll, Waker};
 
 #[must_use = "futures do nothing unless you `.await` or poll them"]
@@ -161,7 +160,7 @@ impl<T> Inner<T> {
                 Ok(mut slot) => {
                     *slot = Some(task);
                     false
-                }
+                },
                 Err(_) => true,
             }
         };
