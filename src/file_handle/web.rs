@@ -1,6 +1,7 @@
-use crate::file_dialog::FileDialog;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
+
+use crate::file_dialog::FileDialog;
 
 #[derive(Clone, Debug)]
 pub(crate) enum WasmFileHandleKind {

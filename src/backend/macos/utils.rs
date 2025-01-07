@@ -1,9 +1,10 @@
 mod focus_manager;
-mod policy_manager;
-mod user_alert;
-
 pub use focus_manager::FocusManager;
+
+mod policy_manager;
 pub use policy_manager::PolicyManager;
+
+mod user_alert;
 pub use user_alert::{async_pop_dialog, sync_pop_dialog};
 
 use objc2::rc::Id;

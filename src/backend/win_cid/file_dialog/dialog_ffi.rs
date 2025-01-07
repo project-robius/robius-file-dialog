@@ -1,11 +1,7 @@
-use super::super::utils::str_to_vec_u16;
-pub(crate) use super::com::Result;
-use super::com::{
-    wrap_err, IFileDialog, IFileDialogV, IFileOpenDialog, IShellItem, COMDLG_FILTERSPEC,
-    FILEOPENDIALOGOPTIONS, HWND,
-};
-use crate::FileDialog;
+use std::ffi::c_void;
+use std::path::PathBuf;
 
+use raw_window_handle::RawWindowHandle;
 use windows_sys::core::GUID;
 use windows_sys::Win32::System::Com::{CoCreateInstance, CLSCTX_INPROC_SERVER};
 use windows_sys::Win32::UI::Shell::{
@@ -13,10 +9,14 @@ use windows_sys::Win32::UI::Shell::{
     FOS_PICKFOLDERS,
 };
 
-use std::ffi::c_void;
-use std::path::PathBuf;
+pub(crate) use super::com::Result;
 
-use raw_window_handle::RawWindowHandle;
+use super::super::utils::str_to_vec_u16;
+use super::com::{
+    wrap_err, IFileDialog, IFileDialogV, IFileOpenDialog, IShellItem, COMDLG_FILTERSPEC,
+    FILEOPENDIALOGOPTIONS, HWND,
+};
+use crate::FileDialog;
 
 enum DialogInner {
     Open(IFileOpenDialog),

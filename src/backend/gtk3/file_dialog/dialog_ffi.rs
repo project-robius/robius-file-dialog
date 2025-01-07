@@ -1,11 +1,12 @@
-use super::super::AsGtkDialog;
-use crate::FileDialog;
-use gtk_sys::GtkFileChooserNative;
-
 use std::ffi::{CStr, CString};
 use std::ops::Deref;
 use std::path::{Path, PathBuf};
 use std::ptr;
+
+use gtk_sys::GtkFileChooserNative;
+
+use super::super::AsGtkDialog;
+use crate::FileDialog;
 
 #[repr(i32)]
 pub enum GtkFileChooserAction {

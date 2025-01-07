@@ -1,9 +1,9 @@
-use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 use std::fmt::{Display, Formatter};
-
 use std::future::Future;
 
 use raw_window_handle::{HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle};
+
+use crate::backend::{AsyncMessageDialogImpl, MessageDialogImpl};
 
 /// Synchronous Message Dialog. Supported platforms:
 ///  * Windows

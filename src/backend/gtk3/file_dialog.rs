@@ -1,20 +1,19 @@
-pub mod dialog_ffi;
-
-use dialog_ffi::GtkFileDialog;
-
 use std::path::PathBuf;
 
+pub mod dialog_ffi;
+use dialog_ffi::GtkFileDialog;
+
+use super::gtk_future::GtkDialogFuture;
 use super::utils::GtkGlobalThread;
 use crate::backend::DialogFutureType;
 use crate::{FileDialog, FileHandle};
-
-use super::gtk_future::GtkDialogFuture;
 
 //
 // File Picker
 //
 
-use crate::backend::FilePickerDialogImpl;
+use crate::backend::{AsyncFilePickerDialogImpl, FilePickerDialogImpl};
+
 impl FilePickerDialogImpl for FileDialog {
     fn pick_file(self) -> Option<PathBuf> {
         GtkGlobalThread::instance().run_blocking(move || {
@@ -41,7 +40,6 @@ impl FilePickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFilePickerDialogImpl;
 impl AsyncFilePickerDialogImpl for FileDialog {
     fn pick_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let builder = move || GtkFileDialog::build_pick_file(&self);
@@ -82,7 +80,8 @@ impl AsyncFilePickerDialogImpl for FileDialog {
 // Folder Picker
 //
 
-use crate::backend::FolderPickerDialogImpl;
+use crate::backend::{AsyncFolderPickerDialogImpl, FolderPickerDialogImpl};
+
 impl FolderPickerDialogImpl for FileDialog {
     fn pick_folder(self) -> Option<PathBuf> {
         GtkGlobalThread::instance().run_blocking(move || {
@@ -109,7 +108,6 @@ impl FolderPickerDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFolderPickerDialogImpl;
 impl AsyncFolderPickerDialogImpl for FileDialog {
     fn pick_folder_async(self) -> DialogFutureType<Option<FileHandle>> {
         let builder = move || GtkFileDialog::build_pick_folder(&self);
@@ -150,7 +148,8 @@ impl AsyncFolderPickerDialogImpl for FileDialog {
 // File Save
 //
 
-use crate::backend::FileSaveDialogImpl;
+use crate::backend::{AsyncFileSaveDialogImpl, FileSaveDialogImpl};
+
 impl FileSaveDialogImpl for FileDialog {
     fn save_file(self) -> Option<PathBuf> {
         GtkGlobalThread::instance().run_blocking(move || {
@@ -165,7 +164,6 @@ impl FileSaveDialogImpl for FileDialog {
     }
 }
 
-use crate::backend::AsyncFileSaveDialogImpl;
 impl AsyncFileSaveDialogImpl for FileDialog {
     fn save_file_async(self) -> DialogFutureType<Option<FileHandle>> {
         let builder = move || GtkFileDialog::build_save_file(&self);

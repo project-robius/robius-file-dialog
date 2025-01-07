@@ -1,6 +1,5 @@
 use std::pin::Pin;
 use std::sync::{Arc, Mutex, TryLockError};
-
 use std::task::{Context, Poll, Waker};
 
 struct FutureState<R> {

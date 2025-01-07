@@ -1,8 +1,8 @@
-use crate::FileHandle;
-
 use std::path::{Path, PathBuf};
 
 use raw_window_handle::{HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle};
+
+use crate::FileHandle;
 
 #[derive(Debug, Clone)]
 pub(crate) struct Filter {
@@ -227,11 +227,11 @@ impl AsyncFileDialog {
     }
 }
 
+use std::future::Future;
+
 #[cfg(not(target_arch = "wasm32"))]
 use crate::backend::AsyncFolderPickerDialogImpl;
 use crate::backend::{AsyncFilePickerDialogImpl, AsyncFileSaveDialogImpl};
-
-use std::future::Future;
 
 impl AsyncFileDialog {
     /// Pick one file

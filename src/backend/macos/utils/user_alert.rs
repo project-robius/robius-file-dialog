@@ -1,6 +1,5 @@
-use crate::backend::macos::utils::{FocusManager, PolicyManager};
-use crate::backend::DialogFutureType;
-use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
+use std::mem::MaybeUninit;
+use std::{ptr, thread};
 
 use core_foundation::base::TCFType;
 use core_foundation::string::CFString;
@@ -15,8 +14,9 @@ use core_foundation_sys::user_notification::{
 };
 use objc2_foundation::MainThreadMarker;
 
-use std::mem::MaybeUninit;
-use std::{ptr, thread};
+use crate::backend::macos::utils::{FocusManager, PolicyManager};
+use crate::backend::DialogFutureType;
+use crate::message_dialog::{MessageButtons, MessageDialog, MessageDialogResult, MessageLevel};
 
 struct UserAlert {
     timeout: CFTimeInterval,
