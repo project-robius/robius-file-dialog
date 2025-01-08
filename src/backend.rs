@@ -67,6 +67,7 @@ pub trait FolderPickerDialogImpl {
     fn pick_folders(self) -> Option<Vec<PathBuf>>;
 }
 
+/// Dialog used to display messages
 pub trait MessageDialogImpl {
     fn show(self) -> MessageDialogResult;
 }
@@ -98,6 +99,7 @@ pub trait AsyncFileSaveDialogImpl {
     fn save_file_async(self) -> DialogFutureType<Option<FileHandle>>;
 }
 
+/// Dialog used to display messages
 pub trait AsyncMessageDialogImpl {
     fn show_async(self) -> DialogFutureType<MessageDialogResult>;
 }
